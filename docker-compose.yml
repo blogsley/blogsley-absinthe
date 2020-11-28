@@ -3,14 +3,14 @@
 version: "3.8"
 services:
   # server
-  blogsley:
+  phoenix:
     build:
       context: ./server
       target: dev
     depends_on:
-      - blogsley-pg
-      #- blogsley-s3
-      #- blogsley-dps
+      - pg
+      #- s3
+      #- dps
     environment:
       - DEBUG=TRUE
       - BLOGSLEY_SECRET_KEY=${BLOGSLEY_SECRET_KEY}
@@ -30,7 +30,7 @@ services:
   pgAdmin:
     image: dpage/pgadmin4
     depends_on:
-      - blogsley-pg
+      - pg
     restart: always
     ports:
         - "8888:80"
@@ -43,7 +43,7 @@ services:
       - blogsley
 
   # Database
-  blogsley-pg:
+  pg:
     image: postgres:12.3
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
@@ -57,7 +57,7 @@ services:
   
 
   # Front-end
-  blogsley-admin:
+  admin:
     build:
       # context: admin
       context: ./admin
