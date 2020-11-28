@@ -19,5 +19,5 @@ RUN mkdir $APP_HOME
 #USER blogsley
 WORKDIR $APP_HOME
 
-CMD ["mix", "phx.server"]
-#ENTRYPOINT ["bash", "./startdev.sh"]
+#CMD ["mix", "phx.server"]
+ENTRYPOINT ["bash", "./startdev.sh"]

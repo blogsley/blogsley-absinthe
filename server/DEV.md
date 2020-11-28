@@ -8,8 +8,19 @@ Bootstrapping the phoenix image/service
     mix phx.new . --app blogsley
 
 Or locally if you don't want a bunch of root owned files
+
     mix archive.install hex phx_new
     mix phx.new . --app blogsley
+
+Basically
+
+    mix local.hex --force && \
+    mix local.rebar --force && \
+    mix archive.install hex phx_new
+
+Without assets
+
+    mix phx.new blogsley --no-webpack --no-html
 
 We are almost there! The following steps are missing:
 
@@ -26,3 +37,9 @@ Start your Phoenix app with:
 You can also run your app inside IEx (Interactive Elixir) as:
 
     $ iex -S mix phx.server
+
+@##@#$
+    docker-compose run phoenix mix ecto.create
+    docker-compose exec phoenix /bin/bash
+
+    mix phx.gen.context Blog Post posts title:unique body
