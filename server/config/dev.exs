@@ -2,10 +2,10 @@ use Mix.Config
 
 # Configure your database
 config :blogsley, Blogsley.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "blogsley_dev",
-  hostname: "localhost",
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  database: System.get_env("POSTGRES_DB"),
+  hostname: System.get_env("POSTGRES_HOST") ,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
