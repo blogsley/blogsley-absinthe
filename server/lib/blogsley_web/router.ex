@@ -13,12 +13,18 @@ defmodule BlogsleyWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", BlogsleyWeb do
-    pipe_through :browser
+  #scope "/", BlogsleyWeb do
+  #  pipe_through :browser
+  #
+  #  get "/", PageController, :index
+  #end
+  scope "/" do
+    pipe_through :api
 
-    get "/", PageController, :index
+    forward "/graphql", Absinthe.Plug , schema:   BlogsleyWeb.Absinthe.Schema
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: BlogsleyWeb.Schema, interface: :playground
   end
-
   # Other scopes may use custom stacks.
   # scope "/api", BlogsleyWeb do
   #   pipe_through :api
