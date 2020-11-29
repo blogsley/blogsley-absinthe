@@ -1,0 +1,10 @@
+#!/bin/bash
+####################################
+#
+# Run the app in development mode
+#
+####################################
+
+export FLASK_APP="blogsley_flask:create_app('dev')"
+export FLASK_ENV=development
+flask run

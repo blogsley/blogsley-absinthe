@@ -114,7 +114,9 @@ export default {
       this.$apollo.mutate({
         mutation: gql`
           mutation ($data: UserInput!) {
-            createUser(data: $data)
+            createUser(data: $data) {
+              id
+            }
           }`,
         variables: {
           data: {
@@ -124,7 +126,7 @@ export default {
           }
         }
       }).then((data) => {
-        if (data.data.register === true) {
+        if (data.data) {
           this.$store.dispatch('login', {
             username: this.username,
             password: this.password1

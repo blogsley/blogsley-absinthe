@@ -14,4 +14,13 @@ defmodule BlogsleyWeb.Types.UserTypes do
     field :password, :string
   end
 
+  input_object :login_input do
+    field :username, :string
+    field :password, :string
+  end
+
+  object :session do
+    field(:token, :string)
+  end
+
 end

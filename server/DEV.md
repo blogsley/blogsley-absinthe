@@ -45,3 +45,14 @@ You can also run your app inside IEx (Interactive Elixir) as:
     mix phx.gen.context Blog Post posts title:unique body
 
     mix phx.gen.context Accounts User users email:unique username:unique password password_hash
+
+## Nuke the Database
+
+Stop the containers
+
+    ./bin/nuke
+
+Start containers
+Attach shell to phoenix container
+
+    mix ecto.migrate

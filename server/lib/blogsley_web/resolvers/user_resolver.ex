@@ -10,8 +10,10 @@ defmodule BlogsleyWeb.Resolvers.UserResolver do
     Accounts.create_user(params)
   end
 
-  def login(%{email: email, password: password}, _info) do
-    with {:ok, user} <- login_with_email_pass(email, password),
+  #def login(%{username: username, password: password}, _info) do
+  def login(data, _info) do
+    data = data.data
+    with {:ok, user} <- login_with_username_pass(data.username, data.password),
          {:ok, jwt, _} <- Blogsley.Guardian.encode_and_sign(user) ,
          {:ok, _ } <- Blogsley.Accounts.store_token(user, jwt) do
       {:ok, %{token: jwt}}

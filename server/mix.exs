@@ -52,7 +52,8 @@ defmodule Blogsley.MixProject do
       {:absinthe_phoenix, "~> 2.0.0"},
       {:guardian, "~> 2.1.1"},
       {:comeonin, "~> 5.3.1"},
-      {:bcrypt_elixir, "~> 2.2.0"}
+      {:bcrypt_elixir, "~> 2.2.0"},
+      {:corsica, "~> 1.1.3"}
     ]
   end
 

@@ -1,5 +1,5 @@
 defmodule Blogsley.Guardian do
-	use Guardian, otp_app: :blog_app_gql
+	use Guardian, otp_app: :blogsley
 	alias Blogsley.Accounts
 
 	def subject_for_token(user, _claims) do

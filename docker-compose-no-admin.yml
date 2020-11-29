@@ -54,19 +54,6 @@ services:
       - "./volumes/postgres:/var/lib/postgresql/data"
     networks:
       - blogsley
-  
-
-  # Front-end
-  admin:
-    build:
-      # context: admin
-      context: ./admin
-      target: quasar-dev
-    ports:
-      - 8080:8080
-    restart: "no"
-    volumes:
-      - "./admin:/admin"
 
 networks:
   blogsley:

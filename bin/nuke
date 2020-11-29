@@ -1,0 +1,16 @@
+#!/bin/bash
+####################################
+#
+# Delete and recreate the database
+#
+####################################
+
+#find . -path "*/migrations/versions/*.py" -not -path "env/*" -not -name "__init__.py" -delete
+#find . -path "*/migrations/versions/*.pyc"  -not -path "env/*" -delete
+
+sudo rm -rf volumes/postgres
+
+#flask db migrate
+#flask db upgrade
+
+#python blogsley_flask/command/populate.py

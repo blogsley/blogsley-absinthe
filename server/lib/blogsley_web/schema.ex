@@ -15,13 +15,19 @@ defmodule BlogsleyWeb.Absinthe.Schema do
   end
 
   mutation do
-    field :create_user, type: :user do
-      arg(:username, non_null(:string))
-      arg(:email, non_null(:string))
-      arg(:password, non_null(:string))
-
+    @desc "Create a user"
+    field :create_user, :user do
+      arg :data, non_null(:user_input)
       resolve(&UserResolver.create/2)
     end
+
+    @desc "Login user"
+    field :login, type: :session do
+      arg(:data, non_null(:login_input))
+
+      resolve(&UserResolver.login/2)
+    end
+
   end
 
 end
