@@ -55,6 +55,7 @@ module.exports = function (ctx) {
         'QItemSection',
         'QItemLabel',
         'QInput',
+        'QForm',
         'QField',
         'QImg',
         'QUploader',
@@ -69,7 +70,11 @@ module.exports = function (ctx) {
         'QFabAction',
         'QMenu',
         'QPopupProxy',
-        'QLinearProgress'
+        'QLinearProgress',
+        'QTabs',
+        'QTab',
+        'QTabPanels',
+        'QTabPanel'
       ],
 
       directives: [
