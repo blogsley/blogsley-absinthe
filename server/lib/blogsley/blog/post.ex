@@ -8,6 +8,9 @@ defmodule Blogsley.Blog.Post do
     field :body, :string
 
     timestamps()
+
+    #belongs_to(:user, Blogsley.Accounts.User, foreign_key: :user_id)
+
   end
 
   @doc false

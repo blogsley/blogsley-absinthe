@@ -43,3 +43,5 @@ You can also run your app inside IEx (Interactive Elixir) as:
     docker-compose exec phoenix /bin/bash
 
     mix phx.gen.context Blog Post posts title:unique body
+
+    mix phx.gen.context Accounts User users email:unique username:unique password password_hash

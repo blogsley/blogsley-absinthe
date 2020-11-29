@@ -23,7 +23,7 @@ defmodule BlogsleyWeb.Router do
 
     forward "/graphql", Absinthe.Plug , schema:   BlogsleyWeb.Absinthe.Schema
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: BlogsleyWeb.Schema, interface: :playground
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: BlogsleyWeb.Absinthe.Schema, interface: :playground
   end
   # Other scopes may use custom stacks.
   # scope "/api", BlogsleyWeb do

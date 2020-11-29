@@ -49,7 +49,10 @@ defmodule Blogsley.MixProject do
       {:absinthe, "~> 1.5.3"},
       {:absinthe_plug, "~> 1.5"},
       {:absinthe_relay, "~> 1.5"},
-      {:absinthe_phoenix, "~> 2.0.0"}
+      {:absinthe_phoenix, "~> 2.0.0"},
+      {:guardian, "~> 2.1.1"},
+      {:comeonin, "~> 5.3.1"},
+      {:bcrypt_elixir, "~> 2.2.0"}
     ]
   end
 
