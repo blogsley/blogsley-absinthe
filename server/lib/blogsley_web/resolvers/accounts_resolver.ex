@@ -1,9 +1,17 @@
-defmodule BlogsleyWeb.Resolvers.UserResolver do
-  alias Blogsley.Accounts
+defmodule BlogsleyWeb.Resolvers.AccountsResolver do
+  alias Absinthe.Relay.Connection
+
+  alias Blogsley.{Accounts, Repo}
+  alias Accounts.{User}
   import Blogsley.AuthHelper
 
-  def all(_, _, _) do
-    {:ok, Accounts.list_users()} #here we use an ok tuple
+  #def all(_, _, _) do
+  #  {:ok, Accounts.list_users()} #here we use an ok tuple
+  #end
+
+  def list_users(args, _) do
+    User
+    |> Connection.from_query(&Repo.all/1, args)
   end
 
   def create(params, _info) do
@@ -25,8 +33,8 @@ defmodule BlogsleyWeb.Resolvers.UserResolver do
     {:ok, current_user}
   end
 
-  def logout(_args, _info) do
-    {:error, "Please log in first!"}
-  end
+  #def logout(_args, _info) do
+  #  {:error, "Please log in first!"}
+  #end
 
 end

@@ -1,33 +1,18 @@
-defmodule BlogsleyWeb.Absinthe.Schema do
+defmodule BlogsleyWeb.Schema do
   use Absinthe.Schema
+  use Absinthe.Relay.Schema, :modern
 
-  alias BlogsleyWeb.Resolvers.PostResolver
-  alias BlogsleyWeb.Resolvers.UserResolver
-
-  import_types BlogsleyWeb.Types.PostTypes
-  import_types BlogsleyWeb.Types.UserTypes
+  import_types BlogsleyWeb.Schema.Accounts
+  import_types BlogsleyWeb.Schema.Blog
+  import_types BlogsleyWeb.Schema.Relay
 
   query do
-    @desc "list_all_posts"
-    field :all_posts, list_of(:post) do
-      resolve &PostResolver.all/3
-    end
+    import_fields :accounts_queries
+    import_fields :blog_queries
   end
 
   mutation do
-    @desc "Create a user"
-    field :create_user, :user do
-      arg :data, non_null(:user_input)
-      resolve(&UserResolver.create/2)
-    end
-
-    @desc "Login user"
-    field :login, type: :session do
-      arg(:data, non_null(:login_input))
-
-      resolve(&UserResolver.login/2)
-    end
-
+    import_fields :accounts_mutations
   end
 
 end

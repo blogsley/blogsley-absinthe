@@ -1,5 +1,6 @@
 defmodule BlogsleyWeb.Types.PostTypes do
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
   @desc "Post fields that can be interrogated(get)"
   object :post do
