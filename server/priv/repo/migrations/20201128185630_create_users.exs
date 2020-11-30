@@ -5,6 +5,8 @@ defmodule Blogsley.Repo.Migrations.CreateUsers do
     create table(:users) do
       add :email, :string
       add :username, :string
+      add :first_name, :string
+      add :last_name, :string
       add :password_hash, :string
       add :token, :text
 

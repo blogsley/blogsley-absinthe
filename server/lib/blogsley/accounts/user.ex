@@ -9,6 +9,8 @@ defmodule Blogsley.Accounts.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     field :username, :string
+    field :first_name, :string
+    field :last_name, :string
     field :token, :string
     timestamps()
 

@@ -2,13 +2,15 @@ defmodule BlogsleyWeb.Schema.Accounts do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
 
-  import Absinthe.Resolution.Helpers
+  #import Absinthe.Resolution.Helpers
 
   alias BlogsleyWeb.Resolvers.AccountsResolver
 
   node object :user do
     field :id, :id
     field :username, :string
+    field :first_name, :string
+    field :last_name, :string
     field :email, :string
     #field(:posts, list_of(:blog_post), resolve: assoc(:blog_posts))
   end
@@ -32,6 +34,11 @@ defmodule BlogsleyWeb.Schema.Accounts do
 
 
   object :accounts_queries do
+    @desc "Get User"
+    field :user, :user do
+      arg(:id, non_null(:id))
+      resolve(&AccountsResolver.get_user/2)
+    end
     @desc "List Users"
     connection field :all_users, node_type: :user do
       resolve(&AccountsResolver.list_users/2)

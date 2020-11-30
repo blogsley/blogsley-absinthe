@@ -29,7 +29,7 @@ import gql from 'graphql-tag'
 const directives = process.env.STANDALONE ? '@client' : ''
 const postQuery = gql`
 query postQuery {
-  allPosts ${directives} {
+  allPosts(first: 100) ${directives} {
     edges {
       node {
         id

@@ -29,7 +29,7 @@ const directives = process.env.STANDALONE ? '@client' : ''
 
 const userQuery = gql`
 query userQuery {
-  allUsers ${directives} {
+  allUsers(first: 100) ${directives} {
     edges {
       node {
         id

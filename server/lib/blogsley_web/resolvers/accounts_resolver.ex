@@ -9,6 +9,11 @@ defmodule BlogsleyWeb.Resolvers.AccountsResolver do
   #  {:ok, Accounts.list_users()} #here we use an ok tuple
   #end
 
+  def get_user(args,_) do
+    user = Accounts.get_user!(args.id)
+    {:ok, user}
+  end
+
   def list_users(args, _) do
     User
     |> Connection.from_query(&Repo.all/1, args)
