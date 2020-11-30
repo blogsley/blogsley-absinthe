@@ -50,6 +50,7 @@ defmodule Blogsley.Blog do
 
   """
   def create_post(attrs \\ %{}) do
+    attrs = attrs.data
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
@@ -67,12 +68,18 @@ defmodule Blogsley.Blog do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_post(%Post{} = post, attrs) do
-    post
-    |> Post.changeset(attrs)
-    |> Repo.update()
-  end
+  #def update_post(%Post{} = post, attrs) do
+  #  post
+  #  |> Post.changeset(attrs)
+  #  |> Repo.update()
+  #end
 
+  def update_post(%{id: id, data: data}) do
+  #def update_post(id, post_params) do
+    Repo.get!(Post, id)
+    |> Post.changeset(data)
+    |> Repo.update
+  end
   @doc """
   Deletes a post.
 
@@ -85,7 +92,13 @@ defmodule Blogsley.Blog do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_post(%Post{} = post) do
+  #def delete_post(%Post{} = post) do
+  #  Repo.delete(post)
+  #end
+
+
+  def delete_post(%{id: id}) do
+    post = Repo.get!(Post, id)
     Repo.delete(post)
   end
 

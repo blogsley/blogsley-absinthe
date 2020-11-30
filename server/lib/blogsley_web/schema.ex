@@ -13,6 +13,7 @@ defmodule BlogsleyWeb.Schema do
 
   mutation do
     import_fields :accounts_mutations
+    import_fields :blog_mutations
   end
 
 end

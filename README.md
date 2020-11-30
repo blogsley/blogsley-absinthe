@@ -1,20 +1,16 @@
-# Blogsley
+# Blogsley Elixir :moon: :wine_glass:
 
-To start your Phoenix server:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+## Web Publishing Evolved / CMS for the JAMstack!!!
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Headless CMS/GraphQL server built with Absinthe
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Quick Links
 
-## Learn more
+Coming Soon
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+### :warning: **This is in the early alpha stage! **
+
+Your best bet is to look at the source code for information
+
+More documentation coming soon!

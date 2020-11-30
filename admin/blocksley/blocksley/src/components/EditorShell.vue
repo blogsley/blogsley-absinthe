@@ -30,7 +30,6 @@
           </shell-fab>
         </shell-fab>
         -->
-        <q-btn flat fab-mini icon="build" />
         <tippy 
             interactive
             :animate-fill="false" 
