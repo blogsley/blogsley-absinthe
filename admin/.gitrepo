@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/blogsley/blogsley-admin
 	branch = master
-	commit = 08078b6a71c2b67dcc0b4623bdd415d8b49bf753
-	parent = 6651f8a3aa8c796eaa860663a823e4e394f2857c
+	commit = 8b69a4966dcfec9b2778f6741777d4ad9c5eb574
+	parent = d7ae5e9e7dca76b88422316b40c601700cd581cb
 	method = merge
 	cmdver = 0.4.3
