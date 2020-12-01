@@ -84,6 +84,7 @@ export default {
       for (const file of fileList) {
         console.log(file)
         const filename = file.name
+        const upload = file
         const image = {
           title: filename,
           filename: filename
@@ -92,45 +93,18 @@ export default {
         this.$apollo.mutate({
           // Query
           mutation: gql`
-            mutation ($filename: string!) {
-              imageUpload (filename: $filename) {
-                presignedUrl,
-                url
+            mutation ($data: ImageInput!, $upload: Upload!) {
+              uploadImage (data: $data, upload: $upload) {
+                id
               }
             }`,
           // Parameters
           variables: {
-            filename
+            data: image,
+            upload: upload
           }
         }).then((data) => {
           console.log(data)
-          const presignedUrl = data.data.imageUpload.presignedUrl
-          fetch(presignedUrl, {
-            method: 'PUT',
-            body: file
-          }).then((response) => {
-            console.log(response)
-            image.src = presignedUrl.split('?')[0]
-            // If multiple files are uploaded, append upload status on the next line.
-            // document.querySelector('#status').innerHTML += `<br>Uploaded ${file.name}.`;
-            this.$apollo.mutate({
-              // Query
-              mutation: gql`
-                mutation ($data: ImageInput!) {
-                  createImage (data: $data) {
-                    id
-                  }
-                }`,
-              // Parameters
-              variables: {
-                data: image
-              }
-            }).then((data) => {
-              console.log(data)
-            })
-          }).catch((e) => {
-            console.error(e)
-          })
         })
       }
     }

@@ -53,7 +53,13 @@ defmodule Blogsley.MixProject do
       {:guardian, "~> 2.1.1"},
       {:comeonin, "~> 5.3.1"},
       {:bcrypt_elixir, "~> 2.2.0"},
-      {:corsica, "~> 1.1.3"}
+      {:corsica, "~> 1.1.3"},
+
+      {:ex_aws, "2.1.6"},
+      {:ex_aws_s3, "~> 2.1.0"},
+      {:poison, "~> 4.0.1"},
+      {:hackney, "~> 1.16.0"},
+      {:sweet_xml, "~> 0.6.6"} # optional dependency
     ]
   end
 

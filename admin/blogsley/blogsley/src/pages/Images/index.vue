@@ -28,7 +28,7 @@ import gql from 'graphql-tag'
 const directives = process.env.STANDALONE ? '@client' : ''
 const imageQuery = gql`
 query imageQuery {
-  allImages ${directives} {
+  allImages(first: 100) ${directives} {
     edges {
       node {
         id
