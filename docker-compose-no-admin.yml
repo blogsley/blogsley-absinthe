@@ -20,7 +20,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - S3_HOST=${S3_HOST}
     ports:
-      - 8000:4000
+      - 4000:4000
     networks:
       - blogsley
     restart: "no"

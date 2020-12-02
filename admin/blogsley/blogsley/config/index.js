@@ -15,7 +15,7 @@ module.exports = function (dev) {
 
   var serverUrl = process.env.SERVER_URL
   if (!serverUrl) {
-    process.env.SERVER_URL = serverUrl = 'http://127.0.0.1:8000'
+    process.env.SERVER_URL = serverUrl = 'http://127.0.0.1:4000'
   }
 
   const url_object = new URL(serverUrl)

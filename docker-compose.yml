@@ -23,12 +23,19 @@ services:
       - S3_HOST=${S3_HOST}
       - S3_BUCKET=${S3_BUCKET}
     ports:
-      - 8000:4000
+      - 4000:4000
     networks:
       - blogsley
     restart: "no"
     volumes:
       - "./server:/app"
+
+  nginx:
+    image: nginx
+    ports:
+        - 8000:80
+    volumes:
+        - ./volumes/minio:/usr/share/nginx/html
 
   pgAdmin:
     image: dpage/pgadmin4

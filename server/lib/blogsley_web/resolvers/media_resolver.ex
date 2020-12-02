@@ -18,12 +18,14 @@ defmodule BlogsleyWeb.Resolvers.MediaResolver do
     #query_params = [{"x-amz-acl", "authenticated-read"}, {"content-type", "binary/octet-stream"}]
     #options = [query_params: query_params]
     # NOTE: Also set option `virtual_host: true` if using an EU region
-    query_params = [{"ContentType", MIME.from_path(filename)}, {"ACL", "public-read"}]
+    content_type = MIME.from_path(filename)
+    IO.puts content_type
+    query_params = [{"ContentType", content_type}, {"ACL", "public-read"}]
     #query_params = []
     presign_options = [virtual_host: false, query_params: query_params]
 
     {:ok, presigned_url} = ExAws.S3.presigned_url(config, :put, bucket, path, presign_options)
-    url = filename
+    url = "http://localhost:8000/media/#{filename}"
     {:ok, %{presigned_url: presigned_url, url: url}}
 
 
