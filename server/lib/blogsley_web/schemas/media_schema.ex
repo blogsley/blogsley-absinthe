@@ -14,7 +14,7 @@ defmodule BlogsleyWeb.Schema.Media do
 
   @desc "Image"
   node object :image do
-    field :id, :id
+    field :id, non_null(:id)
     field :title, :string
     field :filename, :string
     field :src, :string

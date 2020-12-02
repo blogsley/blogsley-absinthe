@@ -12,9 +12,12 @@ defmodule Blogsley.Application do
       # Start the Telemetry supervisor
       BlogsleyWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Blogsley.PubSub},
+      {Phoenix.PubSub, [name: Blogsley.PubSub, adapter: Phoenix.PubSub.PG2]},
       # Start the Endpoint (http/https)
-      BlogsleyWeb.Endpoint
+      BlogsleyWeb.Endpoint,
+      #Graphql Subscriptions
+      {Absinthe.Subscription, BlogsleyWeb.Endpoint}
+
       # Start a worker by calling: Blogsley.Worker.start_link(arg)
       # {Blogsley.Worker, arg}
     ]

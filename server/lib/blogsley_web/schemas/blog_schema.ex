@@ -8,7 +8,7 @@ defmodule BlogsleyWeb.Schema.Blog do
   @desc "Blog Post"
   node object :post do
     @desc "The post id"
-    field :id, :id
+    field :id, non_null(:id)
     @desc "The title of the post"
     field :title, :string
     @desc "The post slug"
@@ -62,6 +62,35 @@ defmodule BlogsleyWeb.Schema.Blog do
       arg :id, non_null(:id)
       resolve(&BlogResolver.delete_post/2)
     end
+  end
+
+  object :blog_subscriptions do
+    @desc "On Update Post"
+      field :on_update_post, :post do
+        arg :id, non_null(:id)
+
+        # If needed, you can also provide a list of topics:
+        #   {:ok, topic: ["absinthe-graphql/absinthe", "elixir-lang/elixir"]}
+        config fn args, _ ->
+          {:ok, topic: args.id}
+        end
+        # this tells Absinthe to run any subscriptions with this field every time
+        # the :submit_comment mutation happens.
+        # It also has a topic function used to find what subscriptions care about
+        # this particular comment
+        trigger :update_post, topic: fn post ->
+          post.id
+        end
+
+        resolve fn post, _, _ ->
+          # this function is often not actually necessary, as the default resolver
+          # for subscription functions will just do what we're doing here.
+          # The point is, subscription resolvers receive whatever value triggers
+          # the subscription
+          {:ok, post}
+        end
+
+      end
   end
 
 end

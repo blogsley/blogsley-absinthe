@@ -7,7 +7,7 @@ defmodule BlogsleyWeb.Schema.Accounts do
   alias BlogsleyWeb.Resolvers.AccountsResolver
 
   node object :user do
-    field :id, :id
+    field :id, non_null(:id)
     field :username, :string
     field :first_name, :string
     field :last_name, :string

@@ -1,5 +1,7 @@
 defmodule BlogsleyWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket,
+    schema: BlogsleyWeb.Schema
 
   ## Channels
   # channel "room:*", BlogsleyWeb.RoomChannel

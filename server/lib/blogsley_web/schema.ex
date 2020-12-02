@@ -20,4 +20,8 @@ defmodule BlogsleyWeb.Schema do
     import_fields :media_mutations
   end
 
+  subscription do
+    import_fields :blog_subscriptions
+  end
+
 end
