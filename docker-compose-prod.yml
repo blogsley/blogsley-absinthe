@@ -22,7 +22,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - S3_HOST=${S3_HOST}
       - S3_BUCKET=${S3_BUCKET}
-      - VIRTUAL_HOST=graphql.blogsley.local
+      - VIRTUAL_HOST=graphql.blogsley.com
     ports:
       - 4000:4000
     networks:
@@ -38,7 +38,7 @@ services:
     volumes:
         - ./volumes/minio:/usr/share/nginx/html
     environment:
-      - VIRTUAL_HOST=media.blogsley.local
+      - VIRTUAL_HOST=media.blogsley.com
 
   pgAdmin:
     image: dpage/pgadmin4
@@ -50,7 +50,7 @@ services:
     environment:
         PGADMIN_DEFAULT_EMAIL: 1234@admin.com
         PGADMIN_DEFAULT_PASSWORD: 1234
-        VIRTUAL_HOST: pgadmin.blogsley.local
+        VIRTUAL_HOST: pgadmin.blogsley.com
     volumes:
         - ./volumes/pgadmin:/var/lib/pgadmin4/storage
     networks:
@@ -82,7 +82,7 @@ services:
     volumes:
       - "./admin:/admin"
     environment: 
-      - VIRTUAL_HOST=admin.blogsley.local
+      - VIRTUAL_HOST=admin.blogsley.com
 
   # Storage
   s3:
@@ -99,7 +99,7 @@ services:
     environment:
       - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
       - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}
-      - VIRTUAL_HOST=s3.blogsley.local
+      - VIRTUAL_HOST=s3.blogsley.com
 
     command: server /minio
 
