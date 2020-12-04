@@ -4,3 +4,4 @@ services:
   phoenix:
     environment:
       - PRODUCTION=TRUE
+      - MIX_ENV=prod
