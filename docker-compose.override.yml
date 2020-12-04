@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+
+  phoenix:
+    environment:
+      - DEBUG=TRUE
+
+  dns-proxy:
+    image: defreitas/dns-proxy-server:latest
+    hostname: dns.mageddo
+    volumes:
+      - ./volumes/dps/conf:/app/conf
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/resolv.conf:/etc/resolv.conf
+    ports:
+      - "5380:5380"
+    network_mode: bridge
+
+  traefik:
+    ports:
+      - "8000:80"
+      - "8008:8080"

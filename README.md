@@ -5,12 +5,12 @@
 
 Headless CMS/GraphQL server built with Absinthe
 
-## Quick Links
-
-Coming Soon
-
 ### :warning: **This is in the early alpha stage! **
 
-Your best bet is to look at the source code for information
+## Development
 
-More documentation coming soon!
+    docker-compose up
+
+## Production
+
+    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d

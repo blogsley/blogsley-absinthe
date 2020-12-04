@@ -1,3 +1,5 @@
+# Local dev environment
+
 version: "3.8"
 services:
   # server
@@ -8,7 +10,9 @@ services:
     depends_on:
       - pg
       - s3
+      #- dps
     environment:
+      - DEBUG=TRUE
       - BLOGSLEY_SECRET_KEY=${BLOGSLEY_SECRET_KEY}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_HOST=${POSTGRES_HOST}
@@ -18,34 +22,25 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - S3_HOST=${S3_HOST}
       - S3_BUCKET=${S3_BUCKET}
+      - VIRTUAL_HOST=graphql.blogsley.local
     ports:
       - 4000:4000
     networks:
       - blogsley
-    hostname: graphql.${BLOGSLEY_DOMAIN}
     restart: "no"
     volumes:
       - "./server:/app"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.phoenix.rule=Host(`graphql.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.phoenix.entrypoints=web"
 
   nginx:
     image: nginx
     ports:
         - 8001:80
-    networks:
-      - blogsley
-    hostname: media.${BLOGSLEY_DOMAIN}
     volumes:
         - ./volumes/minio:/usr/share/nginx/html
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`media.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.nginx.entrypoints=web"
+    environment:
+      - VIRTUAL_HOST=media.blogsley.local
 
-  pgadmin:
+  pgAdmin:
     image: dpage/pgadmin4
     depends_on:
       - pg
@@ -55,15 +50,11 @@ services:
     environment:
         PGADMIN_DEFAULT_EMAIL: 1234@admin.com
         PGADMIN_DEFAULT_PASSWORD: 1234
+        VIRTUAL_HOST: pgadmin.blogsley.local
     volumes:
         - ./volumes/pgadmin:/var/lib/pgadmin4/storage
     networks:
       - blogsley
-    hostname: pgadmin.${BLOGSLEY_DOMAIN}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.pgadmin.entrypoints=web"
 
   # Database
   pg:
@@ -90,51 +81,34 @@ services:
     restart: "no"
     volumes:
       - "./admin:/admin"
-    networks:
-      - blogsley
-    hostname: admin.${BLOGSLEY_DOMAIN}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.admin.rule=Host(`admin.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.admin.entrypoints=web"
+    environment: 
+      - VIRTUAL_HOST=admin.blogsley.local
 
   # Storage
   s3:
     image: minio/minio
     ports:
       - 9000:9000
-    hostname: s3.${BLOGSLEY_DOMAIN}
+    hostname: blogsley-s3.docker
+    networks:
+      blogsley:
+         aliases:
+           - blogsley-s3.docker
     volumes:
       - ./volumes/minio:/minio
-    networks:
-      - blogsley
     environment:
       - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
       - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.s3.rule=Host(`s3.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.s3.entrypoints=web"
+      - VIRTUAL_HOST=s3.blogsley.local
 
     command: server /minio
 
-  traefik:
-    image: "traefik:v2.3"
-    container_name: "traefik"
-    command:
-      #- "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+  nginx-proxy:
+    image: jwilder/nginx-proxy
     ports:
-      - "80:80"
-      - "8008:8080"
+      - "8000:80"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - blogsley
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
 networks:
   blogsley:
-    external: true
