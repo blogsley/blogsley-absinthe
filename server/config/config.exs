@@ -46,7 +46,6 @@ config :ex_aws, :s3,
   region: "local",
   scheme: "http://",
   host: System.get_env("S3_HOST"),
-  port: 9000,
   bucket: System.get_env("S3_BUCKET")
 
 config :ex_aws,
