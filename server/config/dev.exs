@@ -74,15 +74,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Use Minio for Dev S3
-config :ex_aws, :s3,
-  region: "local",
-  scheme: "http://",
-  host: "127.0.0.1",
-  port: 9000,
-  bucket: System.get_env("S3_BUCKET")
-
-config :ex_aws,
-  access_key_id:     System.get_env("AWS_ACCESS_KEY_ID"),
-  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY")
