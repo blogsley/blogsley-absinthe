@@ -16,8 +16,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - S3_HOST=${S3_HOST}
+      - S3_HOST=s3.${BLOGSLEY_DOMAIN}
       - S3_BUCKET=${S3_BUCKET}
+      - MEDIA_HOST=media.${BLOGSLEY_DOMAIN}
     ports:
       - 4000:4000
     networks:
@@ -109,7 +110,9 @@ services:
     volumes:
       - ./volumes/minio:/minio
     networks:
-      - blogsley
+      blogsley:
+         aliases:
+           - s3.blogsley.docker
     environment:
       - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
       - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}

@@ -12,20 +12,17 @@ defmodule BlogsleyWeb.Resolvers.MediaResolver do
     filename = params.filename
     config = ExAws.Config.new(:s3)
     bucket = System.get_env("S3_BUCKET")
-    #path = "uploads/interview_recordings/#{id}.webm"
     path = filename
     # Set the file permission so this file can be publicly linked
-    #query_params = [{"x-amz-acl", "authenticated-read"}, {"content-type", "binary/octet-stream"}]
-    #options = [query_params: query_params]
     # NOTE: Also set option `virtual_host: true` if using an EU region
     content_type = MIME.from_path(filename)
     IO.puts content_type
     query_params = [{"ContentType", content_type}, {"ACL", "public-read"}]
-    #query_params = []
     presign_options = [virtual_host: false, query_params: query_params]
 
     {:ok, presigned_url} = ExAws.S3.presigned_url(config, :put, bucket, path, presign_options)
-    url = "http://localhost:8000/media/#{filename}"
+    media_host = System.get_env("MEDIA_HOST")
+    url = "http://#{media_host}/media/#{filename}"
     {:ok, %{presigned_url: presigned_url, url: url}}
 
 
