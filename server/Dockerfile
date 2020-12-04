@@ -14,8 +14,8 @@ RUN apt-get update && \
 #RUN direnv allow
 
 ENV APP_HOME /app
-RUN mkdir $APP_HOME
-#RUN mkdir -p $APP_HOME && useradd -d $APP_HOME -u 1000 blogsley && chown -R blogsley $APP_HOME
+#RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME && useradd -d $APP_HOME -u 1000 blogsley && chown -R blogsley $APP_HOME
 #USER blogsley
 WORKDIR $APP_HOME
 
