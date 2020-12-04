@@ -5,6 +5,10 @@ services:
     environment:
       - DEBUG=TRUE
 
+  admin:
+    environment:
+      - SERVER_URL=http://127.0.0.1:4000
+
   dns-proxy:
     image: defreitas/dns-proxy-server:latest
     hostname: dns.mageddo

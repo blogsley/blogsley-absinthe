@@ -92,6 +92,8 @@ services:
       - "./admin:/admin"
     networks:
       - blogsley
+    environment:
+      - SERVER_URL="admin.${BLOGSLEY_DOMAIN}"
     hostname: admin.${BLOGSLEY_DOMAIN}
     labels:
       - "traefik.enable=true"
