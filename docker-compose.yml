@@ -93,7 +93,7 @@ services:
     networks:
       - blogsley
     environment:
-      - SERVER_URL=http://admin.${BLOGSLEY_DOMAIN}
+      - SERVER_URL=http://graphql.${BLOGSLEY_DOMAIN}
     hostname: admin.${BLOGSLEY_DOMAIN}
     labels:
       - "traefik.enable=true"
