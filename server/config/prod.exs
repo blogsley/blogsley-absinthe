@@ -62,4 +62,4 @@ config :ex_aws,
     host: "s3.amazonaws.com",
     region: "us-east-1" ]
 
-import_config "prod.secret.exs"
+#import_config "prod.secret.exs"
