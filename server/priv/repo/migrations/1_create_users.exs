@@ -9,6 +9,7 @@ defmodule Blogsley.Repo.Migrations.CreateUsers do
       add :last_name, :string
       add :password_hash, :string
       add :token, :text
+      add :role, :string
 
       timestamps()
     end

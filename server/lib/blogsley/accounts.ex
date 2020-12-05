@@ -51,7 +51,7 @@ defmodule Blogsley.Accounts do
   """
   def create_user(attrs \\ %{}) do
     attrs = attrs.data
-    %User{}
+    %User{role: "Admin"}
     |> User.changeset(attrs)
     |> Repo.insert()
   end

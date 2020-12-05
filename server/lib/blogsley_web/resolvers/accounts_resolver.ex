@@ -27,7 +27,7 @@ defmodule BlogsleyWeb.Resolvers.AccountsResolver do
   def login(data, _info) do
     data = data.data
     with {:ok, user} <- login_with_username_pass(data.username, data.password),
-         {:ok, jwt, _} <- Blogsley.Guardian.encode_and_sign(user) ,
+         {:ok, jwt, _} <- Blogsley.Guardian.encode_and_sign(user, %{role: user.role}) ,
          {:ok, _ } <- Blogsley.Accounts.store_token(user, jwt) do
       {:ok, %{token: jwt}}
     end
