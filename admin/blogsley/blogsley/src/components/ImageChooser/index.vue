@@ -26,7 +26,7 @@ const directives = process.env.STANDALONE ? '@client' : ''
 
 const imageQuery = gql`
 query imageQuery {
-  allImages ${directives} {
+  allImages(first: 1000) ${directives} {
     edges {
       node {
         id
