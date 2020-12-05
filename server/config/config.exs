@@ -10,6 +10,13 @@ use Mix.Config
 config :blogsley,
   ecto_repos: [Blogsley.Repo]
 
+config :blogsley, Blogsley.Repo,
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  database: System.get_env("POSTGRES_DB"),
+  hostname: System.get_env("POSTGRES_HOST") ,
+  pool_size: 10
+
 # Configures the endpoint
 config :blogsley, BlogsleyWeb.Endpoint,
   url: [host: "localhost"],
