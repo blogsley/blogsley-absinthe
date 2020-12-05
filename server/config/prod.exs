@@ -14,7 +14,7 @@ use Mix.Config
 #  cache_static_manifest: "priv/static/cache_manifest.json"
 config :blogsley, BlogsleyWeb.Endpoint,
   http: [port: 4000],
-  check_origin: false,
+  check_origin: false
 
 # Do not print debug messages in production
 config :logger, level: :info
