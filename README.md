@@ -1,4 +1,4 @@
-# Blogsley Absinthe :moon: :wine_glass:
+# Blogsley :moon:
 
 
 ## Web Publishing Evolved / CMS for the JAMstack!!!

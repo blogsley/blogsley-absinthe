@@ -59,9 +59,9 @@ export default {
       subscribeToMore: {
         // below is the subscription query.
         document: gql`
-          subscription postEvents($id: ID!) {
-            postEvents(id: $id) {
-              kind
+          subscription onUpdatePost($id: ID!) {
+            onUpdatePost(id: $id) {
+              block
             }
           }
         `,

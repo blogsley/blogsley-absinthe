@@ -13,7 +13,8 @@ module.exports = function (ctx) {
     boot: [
       'dexie',
       'axios',
-      'apollo',
+      // 'apollo',
+      'absinthe',
       'lazyload',
       'tippy',
       'resizable',
