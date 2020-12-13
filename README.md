@@ -13,6 +13,6 @@
 
 ## Production
 
-### :warning: **This is in the early alpha stage! **
+### :warning: This is in the early alpha stage!
 
     docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
