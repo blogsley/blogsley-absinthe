@@ -4,7 +4,7 @@ services:
   phoenix:
     environment:
       - DEBUG=TRUE
-      - S3_HOST=localhost
+      - S3_HOST=host.docker.internal
       - MEDIA_HOST=localhost:8001
 
   admin:
