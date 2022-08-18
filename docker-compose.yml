@@ -1,144 +1,108 @@
-version: "3.8"
+volumes:
+  db:
+  letsencrypt:
+
+networks:
+  blogsley:
+
 services:
-  # server
-  phoenix:
+
+  auth:
+    #image: jboss/keycloak:latest
+    image: ghcr.io/marcelcoding/keycloak:latest
+    env_file: ./config/.dev.env
+    links:
+      - db
+
+    # mount configuration files
+    volumes:
+      - ./services/auth/kc_init.sh:/kc_init.sh
+      - ./services/auth/profile/profile.properties:/opt/jboss/keycloak/standalone/configuration/profile.properties
+      - ./services/auth/data:/docker-entrypoint-initdb.d/
+
+    ports:
+      - 8282:8080
+    networks:
+      - blogsley
+
+  # Graphile
+  web:
     build:
-      context: ./server
-      target: dev
-    depends_on:
-      - pg
-      - s3
+      context: ./services/web
+    links:
+      - db
+    env_file: ./config/.dev.env
     environment:
-      - BLOGSLEY_SECRET_KEY=${BLOGSLEY_SECRET_KEY}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - S3_HOST=s3.${BLOGSLEY_DOMAIN}
-      - S3_BUCKET=${S3_BUCKET}
-      - MEDIA_HOST=media.${BLOGSLEY_DOMAIN}
-    ports:
-      - 4000:4000
-    networks:
-      - blogsley
-    hostname: graphql.${BLOGSLEY_DOMAIN}
-    restart: "no"
-    volumes:
-      - "./server:/app"
+      - IN_DOCKER=true
+    hostname: web.${BLOGSLEY_DOMAIN}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.phoenix.rule=Host(`graphql.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.phoenix.entrypoints=web"
+      - "traefik.http.routers.web.entrypoints=web"
+      - "traefik.http.routers.web.entrypoints=websecure"
+      - "traefik.http.routers.web.middlewares=test-compress"
+      - "traefik.http.middlewares.test-compress.compress=true"
 
-  nginx:
-    image: nginx
     ports:
-        - 8001:80
+      - 8000:8000
     networks:
       - blogsley
-    hostname: media.${BLOGSLEY_DOMAIN}
     volumes:
-        - ./volumes/minio:/usr/share/nginx/html
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`media.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.nginx.entrypoints=web"
-
-  pgadmin:
-    image: dpage/pgadmin4
-    depends_on:
-      - pg
-    restart: always
-    ports:
-        - "8888:80"
-    environment:
-        PGADMIN_DEFAULT_EMAIL: 1234@admin.com
-        PGADMIN_DEFAULT_PASSWORD: 1234
-    volumes:
-        - ./volumes/pgadmin:/var/lib/pgadmin4/storage
-    networks:
-      - blogsley
-    hostname: pgadmin.${BLOGSLEY_DOMAIN}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.pgadmin.entrypoints=web"
+      - "./services/web:/app"
 
   # Database
-  pg:
-    image: postgres:12.3
+  db:
+    image: postgres:13.5-bullseye
+    env_file: ./config/.dev.env
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-    restart: "no"
+      - PGDATA=/pg-data
+    ports:
+      - 5432:5432
     volumes:
-      - "./volumes/postgres:/var/lib/postgresql/data"
+      - db:/pg-data
+      - ./services/db/init:/docker-entrypoint-initdb.d/
+
     networks:
       - blogsley
-  
 
-  # Front-end
-  admin:
-    build:
-      # context: admin
-      context: ./admin
-      target: quasar-dev
-    ports:
-      - 8080:8080
-    restart: "no"
-    volumes:
-      - "./admin:/admin"
-    networks:
-      - blogsley
-    environment:
-      - SERVER_URL=http://graphql.${BLOGSLEY_DOMAIN}
-    hostname: admin.${BLOGSLEY_DOMAIN}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.admin.rule=Host(`admin.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.admin.entrypoints=web"
+  dbbackup:
+      image: prodrigestivill/postgres-backup-local
+      user: postgres:postgres
+      env_file: ./config/.dev.env
+      environment:
+        - SCHEDULE=@daily
+        - BACKUP_KEEP_DAYS=7
+        - BACKUP_KEEP_WEEKS=4
+        - BACKUP_KEEP_MONTHS=6
+        - HEALTHCHECK_PORT=9090
+      volumes:
+          - /var/opt/blogsley/backups:/backups
+      links:
+          - db
+      networks:
+        - blogsley
 
-  # Storage
-  s3:
-    image: minio/minio
-    ports:
-      - 9000:9000
-    hostname: s3.${BLOGSLEY_DOMAIN}
-    volumes:
-      - ./volumes/minio:/minio
-    networks:
-      blogsley:
-         aliases:
-           - s3.blogsley.docker
-    environment:
-      - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
-      - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.s3.rule=Host(`s3.${BLOGSLEY_DOMAIN}`)"
-      - "traefik.http.routers.s3.entrypoints=web"
-
-    command: server /minio
-
+  # Traffic
   traefik:
-    image: "traefik:v2.3"
+    image: "traefik:v2.5.4"
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesResolvers.le.acme.email=kfields@gmail.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesResolvers.le.acme.tlsChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
+
     ports:
       - "80:80"
-      - "8008:8080"
+      - "8080:8080"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt"
     networks:
       - blogsley
-
-networks:
-  blogsley:
-    external: true

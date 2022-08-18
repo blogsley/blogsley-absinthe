@@ -1,17 +1,17 @@
 # The directory Mix will write compiled artifacts to.
-server/_build/
+services/web/_build/
 
 # If you run "mix test --cover", coverage assets end up here.
-server/cover/
+services/web/cover/
 
 # The directory Mix downloads your dependencies sources to.
-server/deps/
+services/web/deps/
 
 # Where 3rd-party dependencies like ExDoc output generated docs.
-server/doc/
+services/web/doc/
 
 # Ignore .fetch files in case you like to edit your project deps locally.
-server/.fetch
+services/web/.fetch
 
 # If the VM crashes, it generates a dump, let's ignore it too.
 erl_crash.dump
@@ -26,12 +26,10 @@ blogsley-*.tar
 npm-debug.log
 
 # The directory NPM downloads your dependencies sources to.
-server/assets/node_modules/
+services/web/assets/node_modules/
 
 # Since we are building assets from assets/,
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
-server/priv/static/
-
-# Docker
-volumes/*
+services/web/priv/static/
+node_modules

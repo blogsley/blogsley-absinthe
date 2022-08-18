@@ -1,0 +1,4 @@
+#VITE_SERVER_URL="http://localhost:8000"
+VITE_AUTH_USER="admin"
+VITE_AUTH_PWD="admin"
+#VITE_STANDALONE="TRUE"

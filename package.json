@@ -1,0 +1,12 @@
+{
+  "name": "blogsley",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "resolutions": {},
+  "workspaces": [
+    "packages/*"
+  ]
+}

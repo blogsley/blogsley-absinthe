@@ -1,0 +1,24 @@
+{
+  "name": "blocksley-demo",
+  "version": "0.2.0-alpha.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@blocksley/blocksley": "0.2.0-alpha.0",
+    "@quasar/extras": "^1.12.0",
+    "quasar": "^2.3.2",
+    "vue": "^3.2.16",
+    "vue-router": "4",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.0.2",
+    "@vitejs/plugin-vue": "^1.9.3",
+    "sass": "^1.43.4",
+    "vite": "^2.6.4",
+    "vite-aliases": "^0.8.7"
+  }
+}

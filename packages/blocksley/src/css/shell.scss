@@ -1,0 +1,90 @@
+/*#add-block-btn {
+  opacity: .1;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+#add-block-btn:hover {
+  opacity: 1;
+}*/
+
+@mixin sticky() {
+    position: -webkit-sticky;
+    position: sticky;
+}
+  
+@mixin shell-background() {
+//background-color: white !important;
+background: none !important;
+//background-image: linear-gradient(17deg,rgba(243,248,255,.03) 63.45%,rgba(207,214,229,.27) 98%);
+//background-repeat: no-repeat;
+}
+
+.sticky-header {
+@include sticky();
+top: 0;
+opacity: 1;
+z-index: 999;
+}
+
+.shell-header {
+@include shell-background();
+}
+
+.shell-footer {
+position: relative;
+}
+.shell-footer-content {
+position: relative;
+//bottom: -32px;
+left: 50%;
+}
+
+.editor-shell {
+//position: relative;
+//width: 100%;
+//max-width: 1080px;
+}
+/*.sortable-chosen {
+&.editor-shell {
+    box-sizing: content-box;
+}
+}*/
+
+.child-shell {
+@include shell-background();
+background-position: 0px -40px;
+border-bottom: 1px solid rgba(0,0,0,.27);
+box-shadow: 0px 11px 8px -10px #CCC;
+}
+
+.shell-inner {
+position: relative;
+}
+
+/*
+.shell-inner:after {
+content: "";
+display: table;
+clear: both;
+}
+*/
+
+.shell-bar {
+padding:0px;
+@include shell-background();
+border-top: 1px solid rgba(0,0,0,.27);
+box-shadow: 0px -11px 8px -10px #CCC;
+}
+
+.shell-toolbar {
+@include shell-background();
+}
+
+.shell-menu {
+// position: absolute;
+// left: 0;
+// top: -16px;
+}

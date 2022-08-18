@@ -1,17 +1,75 @@
-version: "3.8"
 services:
 
-  phoenix:
+  # Django
+  web:
+    depends_on:
+      - s3
+    env_file: ./config/.dev.env
     environment:
-      - DEBUG=TRUE
-      - S3_HOST=host.docker.internal
-      - MEDIA_HOST=localhost:8001
+      #AWS_S3_ENDPOINT_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:9000
+      MINIO_DOMAIN: ${DOCKER_GATEWAY_HOST:-host.docker.internal}
+    labels:
+      - "traefik.http.routers.web.rule=Host(`graphql.${BLOGSLEY_DOMAIN}`)"
 
-  admin:
-    environment:
-      - SERVER_URL=http://127.0.0.1:4000
 
+  # Traffic
   traefik:
     ports:
-      - "8000:80"
-      - "8008:8080"
+      - "8888:80"
+      - "8080:8080"
+
+  # Storage
+  s3:
+    image: bitnami/minio:latest
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - s3:/data
+    env_file: ./config/.dev.env
+    hostname: s3.${BLOGSLEY_DOMAIN}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.s3.rule=Host(`s3.${BLOGSLEY_DOMAIN}`)"
+      - "traefik.http.routers.s3.entrypoints=web"
+
+  # Database Admin
+  dbadmin:
+    image: dpage/pgadmin4:latest
+    depends_on:
+      - db
+    ports:
+        - "4444:80"
+    env_file: ./config/.dev.env
+    hostname: dbadmin.${BLOGSLEY_DOMAIN}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dbadmin.rule=Host(`dbadmin.${BLOGSLEY_DOMAIN}`)"
+      - "traefik.http.routers.dbadmin.entrypoints=web"
+
+    volumes:
+        - dbadmin:/var/lib/pgadmin4/storage
+    networks:
+      - blogsley
+
+  # Mail
+  maildev:
+    image: maildev/maildev:latest
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    env_file: ./config/.dev.env
+    hostname: maildev.${BLOGSLEY_DOMAIN}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.maildev.rule=Host(`maildev.${BLOGSLEY_DOMAIN}`)"
+      - "traefik.http.routers.maildev.entrypoints=web"
+    volumes:
+      - maildev:/var/lib/maildev
+    networks:
+      - blogsley
+
+volumes:
+  s3:
+  dbadmin:
+  maildev:

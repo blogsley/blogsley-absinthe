@@ -1,1 +1,0 @@
-These bash scripts need to be run from the project root!
